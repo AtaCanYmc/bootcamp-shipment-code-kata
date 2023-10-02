@@ -1,5 +1,7 @@
 package com.trendyol.shipment;
 
+import java.util.stream.Stream;
+
 public enum ShipmentSize {
 
     SMALL,
@@ -8,11 +10,9 @@ public enum ShipmentSize {
     X_LARGE;
 
     public ShipmentSize upperSize() {
-        int nextOrdinal = this.ordinal() + 1;
-        if (nextOrdinal < ShipmentSize.values().length) {
-            return ShipmentSize.values()[nextOrdinal];
-        } else {
-            return X_LARGE;
-        }
+        return Stream.of(ShipmentSize.values())
+                .filter(size -> size.ordinal() > this.ordinal())
+                .findFirst()
+                .orElse(X_LARGE);
     }
 }
